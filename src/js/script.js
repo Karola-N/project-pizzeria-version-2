@@ -59,6 +59,7 @@
             thisProduct.data = data;
             thisProduct.renderInMenu();
             console.log('new Product: ', thisProduct);
+            thisProduct.initAccordion();
         }
         renderInMenu() {
             const thisProduct = this;
@@ -73,6 +74,34 @@
             /* add element to menu */
             menuContainer.appendChild(thisProduct.element);
             //console.log('menuContainer: ', menuContainer);
+        }
+        initAccordion() {
+            const thisProduct = this;
+            /* find the clickable trigger (the element that should react to clicking) */
+            const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+            console.log('clickableTrigger', clickableTrigger);
+            /* START: click event listener to trigger */
+            clickableTrigger.addEventListener('click', function(event) {
+                /* prevent default action for event */
+                event.preventDefault();
+                /* toggle active class on element of thisProduct */
+                thisProduct.element.classList.toggle('active');
+                console.log('thisProduct.element', thisProduct.element);
+                /* find all active products */
+                const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
+                console.log('activeProducts', activeProducts);
+                /* START LOOP: for each active product */
+                for (let activeProduct of activeProducts) {
+                    /* START: if the active product isn't the element of thisProduct */
+                    if (activeProduct != thisProduct.element) {
+                        /* remove class active for the active product */
+                        activeProduct.classList.remove('active');
+                        /* END: if the active product isn't the element of thisProduct */
+                    }
+                    /* END LOOP: for each active product */
+                }
+                /* END: click event listener to trigger */
+            });
         }
     }
     const app = {
