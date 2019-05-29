@@ -74,7 +74,7 @@
             menuContainer.appendChild(thisProduct.element);
             //console.log('menuContainer: ', menuContainer);
         }
-    };
+    }
     const app = {
         initMenu: function() {
             const thisApp = this;
