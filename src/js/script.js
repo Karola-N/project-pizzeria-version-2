@@ -58,8 +58,11 @@
             thisProduct.id = id;
             thisProduct.data = data;
             thisProduct.renderInMenu();
-            console.log('new Product: ', thisProduct);
+            thisProduct.getElements();
             thisProduct.initAccordion();
+            thisProduct.initOrderForm();
+            thisProduct.processOrder();
+            console.log('new Product: ', thisProduct);
         }
         renderInMenu() {
             const thisProduct = this;
@@ -75,10 +78,22 @@
             menuContainer.appendChild(thisProduct.element);
             //console.log('menuContainer: ', menuContainer);
         }
+        getElements() {
+            const thisProduct = this;
+            thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+            thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form); /* find order options */
+            thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+            thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+            thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+            //console.log('thisProduct.form', thisProduct.form);
+            //console.log('thisProduct.formInputs', thisProduct.formInputs);
+            //console.log('thisProduct.cartButton', thisProduct.cartButton);
+            //console.log('thisProduct.priceElem', thisProduct.priceElem);
+        }
         initAccordion() {
             const thisProduct = this;
             /* find the clickable trigger (the element that should react to clicking) */
-            const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+            const clickableTrigger = thisProduct.accordionTrigger;
             console.log('clickableTrigger', clickableTrigger);
             /* START: click event listener to trigger */
             clickableTrigger.addEventListener('click', function(event) {
@@ -102,6 +117,14 @@
                 }
                 /* END: click event listener to trigger */
             });
+        }
+        initOrderForm() {
+            const thisProduct = this;
+            console.log('--- Project.initOrderForm --- ');
+        }
+        processOrder() {
+            const thisProduct = this;
+            console.log('--- Project.processOrder ---- ');
         }
     }
     const app = {
