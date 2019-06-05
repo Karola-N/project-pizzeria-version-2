@@ -137,7 +137,37 @@
         }
         processOrder() {
             const thisProduct = this;
+            console.log('thisProduct --------', thisProduct);
             console.log('--- Project.processOrder ---- ');
+            const formData = utils.serializeFormToObject(thisProduct.form);
+            console.log('formData: ', formData);
+            var price = thisProduct.data.price;
+            console.log('price: ', price);
+
+            for (let paramId in thisProduct.data.params) {
+                const param = thisProduct.data.params;
+                console.log('paramId: ', paramId);
+                console.log('param: ', param);
+                for (let optionId in param.options) {
+                    const option = param.options;
+                    console.log('optionId: ', optionId);
+                    console.log('option: ', option);
+                    /* START IF: if option is selected but is not default */
+                    const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+                    if (optionSelected && !option.default) {
+                        /* add price of option to variable price */
+                        price = price + option.price;
+                        /* START ELSE IF: if option is not selected but is default */
+                    } else if (!optionSelected && option.default) {
+                        /* remove price of option from price */
+                        price = price - option.price;
+                    } else {
+                        price = price;
+                    }
+                }
+            }
+            thisProduct.priceElem.innerHTML = price;
+            console.log('thisProduct.priceElem: ', thisProduct.priceElem);
         }
     }
     const app = {
