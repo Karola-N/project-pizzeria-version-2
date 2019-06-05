@@ -61,6 +61,7 @@
             thisProduct.getElements();
             thisProduct.initAccordion();
             thisProduct.initOrderForm();
+            thisProduct.initAmountWidget();
             thisProduct.processOrder();
             console.log('new Product: ', thisProduct);
         }
@@ -86,27 +87,28 @@
             thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
             thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
             thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+            thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
             //console.log('thisProduct.form', thisProduct.form);
             //console.log('thisProduct.formInputs', thisProduct.formInputs);
             //console.log('thisProduct.cartButton', thisProduct.cartButton);
             //console.log('thisProduct.priceElem', thisProduct.priceElem);
-            console.log('thisProduct.imageWrapper', thisProduct.imageWrapper);
+            //console.log('thisProduct.imageWrapper', thisProduct.imageWrapper);
         }
         initAccordion() {
             const thisProduct = this;
             /* find the clickable trigger (the element that should react to clicking) */
             const clickableTrigger = thisProduct.accordionTrigger;
-            console.log('clickableTrigger', clickableTrigger);
+            //console.log('clickableTrigger', clickableTrigger);
             /* START: click event listener to trigger */
             clickableTrigger.addEventListener('click', function(event) {
                 /* prevent default action for event */
                 event.preventDefault();
                 /* toggle active class on element of thisProduct */
                 thisProduct.element.classList.toggle('active');
-                console.log('thisProduct.element', thisProduct.element);
+                //console.log('thisProduct.element', thisProduct.element);
                 /* find all active products */
                 const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-                console.log('activeProducts', activeProducts);
+                //console.log('activeProducts', activeProducts);
                 /* START LOOP: for each active product */
                 for (let activeProduct of activeProducts) {
                     /* START: if the active product isn't the element of thisProduct */
@@ -122,7 +124,7 @@
         }
         initOrderForm() {
             const thisProduct = this;
-            console.log('--- Project.initOrderForm --- ');
+            //console.log('--- Project.initOrderForm --- ');
             thisProduct.form.addEventListener('submit', function(event) {
                 event.preventDefault();
                 thisProduct.processOrder();
@@ -139,12 +141,12 @@
         }
         processOrder() {
             const thisProduct = this;
-            console.log('thisProduct --------', thisProduct);
-            console.log('--- Project.processOrder ---- ');
+            //console.log('thisProduct --------', thisProduct);
+            //console.log('--- Project.processOrder ---- ');
             const formData = utils.serializeFormToObject(thisProduct.form);
-            console.log('formData: ', formData);
+            //console.log('formData: ', formData);
             var price = thisProduct.data.price;
-            console.log('price: ', price);
+            //console.log('price: ', price);
 
             for (let paramId in thisProduct.data.params) {
                 const param = thisProduct.data.params[paramId];
@@ -153,7 +155,7 @@
                 for (let optionId in param.options) {
                     const option = param.options[optionId];
                     //console.log('optionId: ', optionId);
-                    console.log('option: ', option);
+                    //console.log('option: ', option);
                     /* START IF: if option is selected but is not default */
                     const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
                     if (optionSelected && !option.default) {
@@ -180,13 +182,57 @@
                 }
             }
             thisProduct.priceElem.innerHTML = price;
-            console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+            //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
+        }
+        initAmountWidget() {
+            /* self == thisProduct*/
+            const self = this;
+            self.amountWidget = new AmountWidget(self.amountWidgetElem);
+        }
+    }
+    class AmountWidget {
+        constructor(element) {
+            /* self == thisWidget */
+            const self = this;
+            self.getElements(element);
+            self.setValue(self.input.value);
+            self.initActions();
+            console.log('AmountWidget', self);
+            console.log('constructor arguments: ', element);
+        }
+        getElements(element) {
+            const self = this;
+            self.element = element;
+            self.input = self.element.querySelector(select.widgets.amount.input);
+            self.linkDecrease = self.element.querySelector(select.widgets.amount.linkDecrease);
+            self.linkIncrease = self.element.querySelector(select.widgets.amount.linkIncrease);
+        }
+        setValue(value) {
+            const self = this;
+            const newValue = parseInt(value);
+            /* newValue validation */
+            self.value = newValue;
+            self.input.value = self.value;
+        }
+        initActions() {
+            const self = this;
+            self.input.addEventListener('change', function() {
+                self.setValue(self.input.value);
+            });
+            self.linkDecrease.addEventListener('click', function(event) {
+                event.preventDefault();
+                self.setValue(self.value - 1);
+            });
+            self.linkIncrease.addEventListener('click', function(event) {
+                event.preventDefault();
+                self.setValue(self.value + 1);
+            });
         }
     }
     const app = {
         initMenu: function() {
             const thisApp = this;
-            console.log('thisApp.data: ', thisApp.data);
+            //console.log('thisApp.data: ', thisApp.data);
             for (let productData in thisApp.data.products) {
                 new Product(productData, thisApp.data.products[productData]);
             }
