@@ -149,7 +149,7 @@
             for (let paramId in thisProduct.data.params) {
                 const param = thisProduct.data.params[paramId];
                 //console.log('paramId: ', paramId);
-                console.log('param: ', param);
+                //console.log('param: ', param);
                 for (let optionId in param.options) {
                     const option = param.options[optionId];
                     //console.log('optionId: ', optionId);
@@ -164,7 +164,19 @@
                         /* remove price of option from price */
                         price = price - option.price;
                     }
-
+                    /* START IF ELSE: add/remove class active from image based on chosen option in param*/
+                    const className = '.' + paramId + '-' + optionId;
+                    const img = thisProduct.imageWrapper.querySelectorAll(className);
+                    //console.log('className: ', className);
+                    if (optionSelected) {
+                        for (let i of img) {
+                            i.classList.add(classNames.menuProduct.imageVisible);
+                        }
+                    } else {
+                        for (let i of img) {
+                            i.classList.remove(classNames.menuProduct.imageVisible);
+                        }
+                    }
                 }
             }
             thisProduct.priceElem.innerHTML = price;
