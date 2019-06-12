@@ -180,8 +180,7 @@
             //console.log('--- Project.processOrder ---- ');
             const formData = utils.serializeFormToObject(thisProduct.form);
             //console.log('formData: ', formData);
-            var emptyParams = thisProduct.data.params;
-            emptyParams = {};
+            thisProduct.params = {};
             var price = thisProduct.data.price;
             //console.log('price: ', price);
 
@@ -208,13 +207,13 @@
                     const img = thisProduct.imageWrapper.querySelectorAll(className);
                     //console.log('className: ', className);
                     if (optionSelected) {
-                        if (!emptyParams[paramId]) {
-                            emptyParams[paramId] = {
+                        if (!thisProduct.params[paramId]) {
+                            thisProduct.params[paramId] = {
                                 label: param.label,
                                 options: {},
                             };
                         }
-                        emptyParams[paramId].options[optionId] = option.label;
+                        thisProduct.params[paramId].options[optionId] = option.label;
                         for (let i of img) {
                             i.classList.add(classNames.menuProduct.imageVisible);
                         }
@@ -242,6 +241,8 @@
         }
         addToCart() {
             const self = this;
+            self.name = self.data.name;
+            self.amount = self.amountWidget.value;
             app.cart.add(self);
         }
     }
