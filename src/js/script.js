@@ -320,7 +320,7 @@
         add(menuProduct) {
             const self = this;
             console.log('adding product', menuProduct);
-            const generatedHTML = templates.cartProduct(self);
+            const generatedHTML = templates.cartProduct(menuProduct);
             const generatedDOM = utils.createDOMFromHTML(generatedHTML);
             self.dom.productList.appendChild(generatedDOM);
             console.log('generatedHTML', generatedHTML);
