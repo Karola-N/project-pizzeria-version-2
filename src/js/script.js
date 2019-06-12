@@ -171,6 +171,7 @@
             thisProduct.cartButton.addEventListener('click', function(event) {
                 event.preventDefault();
                 thisProduct.processOrder();
+                thisProduct.addToCart();
             });
         }
         processOrder() {
@@ -227,6 +228,10 @@
             self.amountWidgetElem.addEventListener('updated', function() {
                 self.processOrder();
             });
+        }
+        addToCart() {
+            const self = this;
+            app.cart.add(self);
         }
     }
     class AmountWidget {
@@ -298,6 +303,10 @@
                 event.preventDefault();
                 self.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
             });
+        }
+        add(menuProduct) {
+            //self = this;
+            console.log('adding product', menuProduct);
         }
     }
     const app = {
