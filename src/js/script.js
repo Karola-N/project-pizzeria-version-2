@@ -176,10 +176,12 @@
         }
         processOrder() {
             const thisProduct = this;
-            //console.log('thisProduct --------', thisProduct);
+            console.log('thisProduct --------', thisProduct);
             //console.log('--- Project.processOrder ---- ');
             const formData = utils.serializeFormToObject(thisProduct.form);
             //console.log('formData: ', formData);
+            var emptyParams = thisProduct.data.params;
+            emptyParams = {};
             var price = thisProduct.data.price;
             //console.log('price: ', price);
 
@@ -206,6 +208,13 @@
                     const img = thisProduct.imageWrapper.querySelectorAll(className);
                     //console.log('className: ', className);
                     if (optionSelected) {
+                        if (!emptyParams[paramId]) {
+                            emptyParams[paramId] = {
+                                label: param.label,
+                                options: {},
+                            };
+                        }
+                        emptyParams[paramId].options[optionId] = option.label;
                         for (let i of img) {
                             i.classList.add(classNames.menuProduct.imageVisible);
                         }
@@ -216,9 +225,11 @@
                     }
                 }
             }
+            console.log('thisProduct.params', thisProduct.data.params);
             /* multiply price by amount */
-            price *= thisProduct.amountWidget.value;
-            thisProduct.priceElem.innerHTML = price;
+            thisProduct.priceSingle = price;
+            thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+            thisProduct.priceElem.innerHTML = thisProduct.price;
             //console.log('thisProduct.priceElem: ', thisProduct.priceElem);
         }
         initAmountWidget() {
