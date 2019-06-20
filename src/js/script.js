@@ -327,6 +327,9 @@
             self.dom.productList.addEventListener('updated', function() {
                 self.uptade();
             });
+            self.dom.productList.addEventListener('remove', function() {
+                self.remove(event.detail.cartProduct);
+            });
         }
         add(menuProduct) {
             const self = this;
