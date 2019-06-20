@@ -127,6 +127,7 @@
             //console.log('thisProduct.cartButton', thisProduct.cartButton);
             //console.log('thisProduct.priceElem', thisProduct.priceElem);
             //console.log('thisProduct.imageWrapper', thisProduct.imageWrapper);
+            //console.log('thisProduct.amountWidgetElem', thisProduct.amountWidgetElem);
         }
         initAccordion() {
             const thisProduct = this;
@@ -338,9 +339,10 @@
             self.name = menuProduct.name;
             self.price = menuProduct.price;
             self.priceSingle = menuProduct.priceSingle;
-            self.amount = menuProduct.amount;
+            self.amount = menuProduct.amountWidget.value;
             self.params = JSON.parse(JSON.stringify(menuProduct.params));
             self.getElements(element);
+            self.initAmountWidget();
             console.log('new CartProduct', self);
             console.log('Product Data', menuProduct);
         }
@@ -349,9 +351,20 @@
             self.dom = {};
             self.dom.wrapper = element;
             self.dom.amountWidget = self.dom.wrapper.querySelector(select.cartProduct.amountWidget);
+            //console.log('self.dom.amountWidget', self.dom.amountWidget);
             self.dom.price = self.dom.wrapper.querySelector(select.cartProduct.price);
             self.dom.edit = self.dom.wrapper.querySelector(select.cartProduct.edit);
             self.dom.remove = self.dom.wrapper.querySelector(select.cartProduct.remove);
+        }
+        initAmountWidget() {
+            const self = this;
+            self.amountWidget = new AmountWidget(self.dom.amountWidget);
+            self.dom.amountWidget.addEventListener('updated', function() {
+                self.amount = self.amountWidget.value;
+                self.price = self.priceSingle * self.amount;
+                self.dom.price.innerHTML = self.price;
+                //console.log('self.price', self.price);
+            });
         }
     }
     const app = {
