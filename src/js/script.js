@@ -176,7 +176,7 @@
         }
         processOrder() {
             const thisProduct = this;
-            console.log('thisProduct --------', thisProduct);
+            //console.log('thisProduct --------', thisProduct);
             //console.log('--- Project.processOrder ---- ');
             const formData = utils.serializeFormToObject(thisProduct.form);
             //console.log('formData: ', formData);
@@ -300,7 +300,7 @@
             self.products = [];
             self.getElements(element);
             self.initActions();
-            console.log('new Cart: ', self);
+            //console.log('new Cart: ', self);
         }
         getElements(element) {
             const self = this;
@@ -319,14 +319,39 @@
         }
         add(menuProduct) {
             const self = this;
-            console.log('adding product', menuProduct);
+            //console.log('adding product', menuProduct);
             const generatedHTML = templates.cartProduct(menuProduct);
             const generatedDOM = utils.createDOMFromHTML(generatedHTML);
             self.dom.productList.appendChild(generatedDOM);
-            console.log('generatedHTML', generatedHTML);
-            console.log('generatedDOM', generatedDOM);
-            console.log('self.dom', self.dom);
-            console.log('self.dom.productList', self.dom.productList);
+            //console.log('generatedHTML', generatedHTML);
+            //console.log('generatedDOM', generatedDOM);
+            //console.log('self.dom', self.dom);
+            //console.log('self.dom.productList', self.dom.productList);
+            self.products.push(new CartProduct(menuProduct, generatedDOM));
+            //console.log('self.products', self.products);
+        }
+    }
+    class CartProduct {
+        constructor(menuProduct, element) {
+            const self = this;
+            self.id = menuProduct.id;
+            self.name = menuProduct.name;
+            self.price = menuProduct.price;
+            self.priceSingle = menuProduct.priceSingle;
+            self.amount = menuProduct.amount;
+            self.params = JSON.parse(JSON.stringify(menuProduct.params));
+            self.getElements(element);
+            console.log('new CartProduct', self);
+            console.log('Product Data', menuProduct);
+        }
+        getElements(element) {
+            const self = this;
+            self.dom = {};
+            self.dom.wrapper = element;
+            self.dom.amountWidget = self.dom.wrapper.querySelector(select.cartProduct.amountWidget);
+            self.dom.price = self.dom.wrapper.querySelector(select.cartProduct.price);
+            self.dom.edit = self.dom.wrapper.querySelector(select.cartProduct.edit);
+            self.dom.remove = self.dom.wrapper.querySelector(select.cartProduct.remove);
         }
     }
     const app = {
