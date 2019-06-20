@@ -374,6 +374,7 @@
             self.params = JSON.parse(JSON.stringify(menuProduct.params));
             self.getElements(element);
             self.initAmountWidget();
+            self.initActions();
             console.log('new CartProduct', self);
             //console.log('Product Data', menuProduct);
         }
@@ -395,6 +396,28 @@
                 self.price = self.priceSingle * self.amount;
                 self.dom.price.innerHTML = self.price;
                 //console.log('self.price', self.price);
+            });
+        }
+        remove() {
+            const self = this;
+            const event = new CustomEvent('remove', {
+                bubbles: true,
+                detail: {
+                    cartProduct: self,
+                },
+            });
+            self.dom.wrapper.dispatchEvent(event);
+            console.log('remove');
+        }
+        initActions() {
+            const self = this;
+            /*self.dom.edit.addEventListener('click', function(event) {
+                event.preventDefault();
+
+            });*/
+            self.dom.remove.addEventListener('click', function() {
+                event.preventDefault();
+                self.remove();
             });
         }
     }
