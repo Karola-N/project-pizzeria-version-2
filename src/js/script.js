@@ -365,6 +365,18 @@
                 }
             }
         }
+        remove(cartProduct) {
+            const self = this;
+            const index = self.products.indexOf(cartProduct);
+            const removeElem = self.products.splice(index);
+            //console.log('cartProduct', cartProduct);
+            //console.log('index', index);
+            //console.log('removeElem', removeElem);
+            //console.log('cartProduct.dom.wrapper', cartProduct.dom.wrapper);
+            //console.log('self.dom.wrapper', self.dom.wrapper);
+            cartProduct.dom.wrapper.remove();
+            self.uptade();
+        }
     }
     class CartProduct {
         constructor(menuProduct, element) {
