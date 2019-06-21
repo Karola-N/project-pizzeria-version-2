@@ -325,9 +325,9 @@
                 self.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
             });
             self.dom.productList.addEventListener('updated', function() {
-                self.uptade();
+                self.update();
             });
-            self.dom.productList.addEventListener('remove', function() {
+            self.dom.productList.addEventListener('remove', function(event) {
                 self.remove(event.detail.cartProduct);
             });
         }
@@ -343,9 +343,9 @@
             //console.log('self.dom.productList', self.dom.productList);
             self.products.push(new CartProduct(menuProduct, generatedDOM));
             console.log('self.products', self.products);
-            self.uptade();
+            self.update();
         }
-        uptade() {
+        update() {
             const self = this;
             self.totalNumber = 0;
             self.subtotalPrice = 0;
@@ -368,14 +368,9 @@
         remove(cartProduct) {
             const self = this;
             const index = self.products.indexOf(cartProduct);
-            const removeElem = self.products.splice(index);
-            //console.log('cartProduct', cartProduct);
-            //console.log('index', index);
-            //console.log('removeElem', removeElem);
-            //console.log('cartProduct.dom.wrapper', cartProduct.dom.wrapper);
-            //console.log('self.dom.wrapper', self.dom.wrapper);
+            self.products.splice(index, 1);
             cartProduct.dom.wrapper.remove();
-            self.uptade();
+            self.update();
         }
     }
     class CartProduct {
@@ -422,7 +417,7 @@
                 },
             });
             self.dom.wrapper.dispatchEvent(event);
-            console.log('remove');
+            console.log('Method remove');
         }
         initActions() {
             const self = this;
@@ -430,7 +425,7 @@
                 event.preventDefault();
 
             });*/
-            self.dom.remove.addEventListener('click', function() {
+            self.dom.remove.addEventListener('click', function(event) {
                 event.preventDefault();
                 self.remove();
             });
