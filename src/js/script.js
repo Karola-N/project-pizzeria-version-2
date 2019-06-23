@@ -314,6 +314,7 @@
         }
         getElements(element) {
             const self = this;
+            //console.log('self', self);
             self.dom = {};
             self.dom.wrapper = element;
             self.dom.toggleTrigger = self.dom.wrapper.querySelector(select.cart.toggleTrigger);
@@ -323,6 +324,12 @@
             for (let key of self.renderTotalsKeys) {
                 self.dom[key] = self.dom.wrapper.querySelectorAll(select.cart[key]);
             }
+            self.dom.form = self.dom.wrapper.querySelector(select.cart.form);
+            self.dom.phone = self.dom.wrapper.querySelector(select.cart.phone);
+            self.dom.address = self.dom.wrapper.querySelector(select.cart.address);
+            //console.log('self.dom.form', self.dom.form);
+            console.log('self.dom.phone', self.dom.phone);
+            console.log('self.dom.address', self.dom.address);
         }
         initActions() {
             const self = this;
@@ -335,6 +342,11 @@
             });
             self.dom.productList.addEventListener('remove', function(event) {
                 self.remove(event.detail.cartProduct);
+            });
+            /* prevent page reload after cklicking ORDER button and initiate sendOrder method*/
+            self.dom.form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                self.sendOrder();
             });
         }
         add(menuProduct) {
@@ -377,6 +389,36 @@
             self.products.splice(index, 1);
             cartProduct.dom.wrapper.remove();
             self.update();
+        }
+        sendOrder() {
+            const self = this;
+            const url = settings.db.url + '/' + settings.db.order;
+            /* payload consists of data send to server */
+            const payload = {
+                phone: self.dom.phone.value,
+                address: self.dom.address.value,
+                totalNumber: self.totalNumber,
+                subtotalPrice: self.subtotalPrice,
+                deliveryFee: self.deliveryFee,
+                totalPrice: self.totalPrice,
+                products: self.products,
+            };
+            for (let p of self.products) {
+                p.getData();
+            }
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            };
+            fetch(url, options)
+                .then(function(response) {
+                    return response.json();
+                }).then(function(parsedResponse) {
+                    console.log('parsedResponse', parsedResponse);
+                });
         }
     }
     class CartProduct {
@@ -435,6 +477,11 @@
                 event.preventDefault();
                 self.remove();
             });
+        }
+        getData() {
+            const self = this;
+            const data = [self.id, self.amount, self.priceSingle, self.params];
+            return (data);
         }
     }
     const app = {
