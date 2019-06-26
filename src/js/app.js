@@ -63,6 +63,9 @@ const app = {
         for (let link of self.navLinks) {
             link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
         }
+        for (let page of self.pages) {
+            page.classList.toggle(classNames.nav.active, page.getAttribute('id') == pageId);
+        }
     },
     init: function() {
         const thisApp = this;
