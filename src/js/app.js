@@ -44,21 +44,28 @@ const app = {
         //console.log('subpage wrapper', document.querySelector(select.containerOf.pages));
         //console.log('self.pages', self.pages);
         self.navLinks = Array.from(document.querySelectorAll(select.nav.links));
-        self.activePage(self.pages[0].id);
+        //self.activatePage(self.pages[0].id);
+        let pagesMachingHash = [];
+        if (window.location.hash.length > 2) {
+            const idFromHash = window.location.hash.replace('#/', '');
+            pagesMachingHash = self.pages.filter(function(page){
+                return page.id == idFromHash;
+            });
+        }
+        self.activatePage(pagesMachingHash.length ? pagesMachingHash[0].id : self.pages[0].id);
         for (let link of self.navLinks) {
             link.addEventListener('click', function(event) {
                 const clickedElement = this;
                 event.preventDefault();
-
-                /* TO DO: get page id from href */
+                /* DONE: get page id from href */
                 const hrefClicked = clickedElement.getAttribute('href');
                 const pageID = hrefClicked.replace('#', '');
-                self.activePage(pageID);
-                /* TO DO: activate page */
+                /* DONE: activate page */
+                self.activatePage(pageID);
             });
         }
     },
-    activePage: function(pageId) {
+    activatePage: function(pageId) {
         const self = this;
         for (let link of self.navLinks) {
             link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
@@ -66,6 +73,7 @@ const app = {
         for (let page of self.pages) {
             page.classList.toggle(classNames.nav.active, page.getAttribute('id') == pageId);
         }
+        window.location.hash = '#/' + pageId;
     },
     init: function() {
         const thisApp = this;
