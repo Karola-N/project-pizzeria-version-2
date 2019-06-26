@@ -1,6 +1,6 @@
 import { Product } from './components/Product.js';
 import { Cart } from './components/Cart.js';
-import { select, settings } from './settings.js';
+import { select, settings, classNames } from './settings.js';
 const app = {
     initMenu: function() {
         const thisApp = this;
@@ -38,6 +38,32 @@ const app = {
             app.cart.add(event.detail.product);
         });
     },
+    initPages: function() {
+        const self = this;
+        self.pages = Array.from(document.querySelector(select.containerOf.pages).children);
+        //console.log('subpage wrapper', document.querySelector(select.containerOf.pages));
+        //console.log('self.pages', self.pages);
+        self.navLinks = Array.from(document.querySelectorAll(select.nav.links));
+        self.activePage(self.pages[0].id);
+        for (let link of self.navLinks) {
+            link.addEventListener('click', function(event) {
+                const clickedElement = this;
+                event.preventDefault();
+
+                /* TO DO: get page id from href */
+                const hrefClicked = clickedElement.getAttribute('href');
+                const pageID = hrefClicked.replace('#', '');
+                self.activePage(pageID);
+                /* TO DO: activate page */
+            });
+        }
+    },
+    activePage: function(pageId) {
+        const self = this;
+        for (let link of self.navLinks) {
+            link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
+        }
+    },
     init: function() {
         const thisApp = this;
         //console.log('*** App starting ***');
@@ -45,6 +71,7 @@ const app = {
         //console.log('classNames:', classNames);
         //console.log('settings:', settings);
         //console.log('templates:', templates);
+        thisApp.initPages();
         thisApp.initData();
         thisApp.initCart();
     },
