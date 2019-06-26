@@ -6,10 +6,8 @@ $color-main: #ff6b6b;
 $color-warning: #f6b93b;
 $color-danger: #e55039;
 $color-success: #78e08f;
-$font-header: 'Oswald',
-sans-serif;
-$font-text: 'Lato',
-sans-serif;
+$font-header: 'Oswald', sans-serif;
+$font-text: 'Lato', sans-serif;
 $font-light: 300;
 $font-normal: 400;
 $font-semibold: 500;
@@ -33,10 +31,12 @@ $base-size: 12px;
     text-decoration: none;
     text-transform: uppercase;
     text-align: center;
+    
     &:hover {
         background: lighten($btn-bg, 3%);
     }
     // CODE ADDED START
+    
     &.disabled,
     &[disabled] {
         background: desaturate($btn-bg, 100%);
@@ -88,18 +88,23 @@ $base-size: 12px;
         transform-origin: top center;
         transform: rotateX(-90deg);
     }
+    
     5% {
         opacity: 1;
     }
+    
     80% {
         transform: rotateX(8deg);
     }
+    
     83% {
         transform: rotateX(6deg);
     }
+    
     92% {
         transform: rotateX(-3deg);
     }
+    
     100% {
         transform-origin: top center;
         transform: rotateX(0deg);

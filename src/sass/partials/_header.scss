@@ -2,6 +2,7 @@
     padding: ($base-size * 5) 0 ($base-size * 8) 0;
     background: $color-dark;
     color: $color-light;
+    
     &__wrapper {
         position: relative;
     }
@@ -10,16 +11,19 @@
 .logo {
     display: inline-block;
     line-height: 1;
+    
     &__title {
         margin: 0 0 $base-size 0;
         font-size: ($base-size * 4);
         font-family: $font-header;
         font-weight: $font-light;
         text-transform: uppercase;
+        
         span {
             font-weight: $font-bold;
         }
     }
+    
     &__subtitle {
         margin: 0;
         font-size: ($base-size * 1.5);
@@ -32,6 +36,7 @@
     position: absolute;
     @include flex(row, flex-start, flex-start);
     bottom: ($base-size * -8);
+    
     a {
         @extend .h2;
         color: $color-main;
@@ -42,6 +47,7 @@
         background: darken($color-dark, 5%);
         border-top-left-radius: $radius;
         border-top-right-radius: $radius;
+        
         &.active {
             background: lighten($color-dark, 75%);
         }
