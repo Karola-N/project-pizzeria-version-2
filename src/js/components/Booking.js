@@ -3,24 +3,26 @@ import { utils } from '../utils.js';
 import { select, templates } from '../settings.js';
 import { AmountWidget } from './AmountWidget.js';
 export class Booking {
-    constructor() {
+    constructor(wrapper) {
         const self = this;
-        console.log('class Booking', self);
-        self.render();
+        const BookingWrapper = wrapper;
+        console.log('BookingWrapper', BookingWrapper);
+        self.render(BookingWrapper);
         self.initWidgets();
     }
-    render(){
+    render(BookingWrapper){
         const self = this;
         const generatedHTML = templates.bookingWidget();
-        //console.log('generatedHTML Booking', generatedHTML);
+        BookingWrapper.innerHTML = generatedHTML;
+        //console.log('Booking-widget HTML', generatedHTML);
         self.dom = {};
-        self.dom.wrapper = utils.createDOMFromHTML(generatedHTML);
-        console.log('Booking-render wrapper', self.dom.wrapper);
+        self.dom.wrapper = BookingWrapper;
+        //console.log('Booking-widget wrapper', self.dom.wrapper);
         //console.log('self.dom', self.dom);
         self.dom.peopleAmount = self.dom.wrapper.querySelector(select.booking.peopleAmount);
         self.dom.hoursAmount = self.dom.wrapper.querySelector(select.booking.hoursAmount);
         //console.log('Booking.peopleAmount', self.dom.peopleAmount);
-        //wrapper.innerHTML = self.dom.wrapper;
+        //wrapper.innerHTML = generatedHTML;
     }
     initWidgets(){
         const self = this;

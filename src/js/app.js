@@ -79,14 +79,8 @@ const app = {
     },
     initBooking: function(){
         const self = this;
-        console.log('initBooking self',self);
         self.bookingWrapper = document.querySelector(select.containerOf.booking);
-        console.log('Booking Wrapper', self.bookingWrapper);
         new Booking(self.bookingWrapper);
-        self.navLinks[1].addEventListener('click', function(event) {
-            event.preventDefault();
-            
-        });
     },
     init: function() {
         const thisApp = this;
