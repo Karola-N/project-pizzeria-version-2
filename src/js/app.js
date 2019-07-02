@@ -85,8 +85,7 @@ const app = {
         new Booking(self.bookingWrapper);
         self.navLinks[1].addEventListener('click', function(event) {
             event.preventDefault();
-            self.bookingWrapper.innerHTML = 'Booking.dom.wrapper';
-            console.log('self.bookingWrapper.innerHTML', self.bookingWrapper.innerHTML);
+            
         });
     },
     init: function() {
