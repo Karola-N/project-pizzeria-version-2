@@ -1,6 +1,8 @@
 import { Product } from './components/Product.js';
 import { Cart } from './components/Cart.js';
+import { Booking } from './components/Booking.js';
 import { select, settings, classNames } from './settings.js';
+
 const app = {
     initMenu: function() {
         const thisApp = this;
@@ -75,6 +77,18 @@ const app = {
         }
         window.location.hash = '#/' + pageId;
     },
+    initBooking: function(){
+        const self = this;
+        console.log('initBooking self',self);
+        self.bookingWrapper = document.querySelector(select.containerOf.booking);
+        console.log('Booking Wrapper', self.bookingWrapper);
+        new Booking(self.bookingWrapper);
+        self.navLinks[1].addEventListener('click', function(event) {
+            event.preventDefault();
+            self.bookingWrapper.innerHTML = 'Booking.dom.wrapper';
+            console.log('self.bookingWrapper.innerHTML', self.bookingWrapper.innerHTML);
+        });
+    },
     init: function() {
         const thisApp = this;
         //console.log('*** App starting ***');
@@ -85,6 +99,7 @@ const app = {
         thisApp.initPages();
         thisApp.initData();
         thisApp.initCart();
+        thisApp.initBooking();
     },
 };
 

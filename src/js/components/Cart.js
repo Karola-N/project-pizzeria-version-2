@@ -26,8 +26,8 @@ export class Cart {
         self.dom.phone = self.dom.wrapper.querySelector(select.cart.phone);
         self.dom.address = self.dom.wrapper.querySelector(select.cart.address);
         //console.log('self.dom.form', self.dom.form);
-        console.log('self.dom.phone', self.dom.phone);
-        console.log('self.dom.address', self.dom.address);
+        //console.log('self.dom.phone', self.dom.phone);
+        //console.log('self.dom.address', self.dom.address);
     }
     initActions() {
         const self = this;
